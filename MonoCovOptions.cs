@@ -11,6 +11,7 @@ namespace MonoCov
 			optionSet = new OptionSet ();
 			optionSet.Add ("export-xml=", "Export coverage data as XML into specified directory", v => exportXmlDir = v);
 			optionSet.Add ("export-html=", "Export coverage data as HTML into specified directory", v => exportHtmlDir = v);
+			optionSet.Add ("export-lcov=", "Export coverage data as LCOV into specified directory", v => exportLcovDir = v);
 			optionSet.Add ("stylesheet=", "Use the specified XSL stylesheet for XML->HTML conversion", v => exportHtmlDir = v);
 			optionSet.Add ("minClassCoverage=", "If a code coverage of a class is less than specified, the application exits with return code 1.", v => float.TryParse(v, out minClassCoverage));
 			optionSet.Add ("minMethodeCoverage=", "If a code coverage of a methode is less than specified, the application exits with return code 1.", v => float.TryParse(v, out minMethodeCoverage));
@@ -21,6 +22,7 @@ namespace MonoCov
 		
 		public string exportXmlDir;
 		public string exportHtmlDir;
+		public string exportLcovDir;
 		public string styleSheet;
 		public float minClassCoverage = -1f;
 		public float minMethodeCoverage = -1f;

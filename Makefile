@@ -33,6 +33,7 @@ SRCS = \
 	SourceFileCoverageData.cs \
 	XmlExporter.cs \
 	HtmlExporter.cs \
+	LcovExporter.cs \
 	Options.cs \
 	MonoCovOptions.cs \
 	MonoCovMain.cs \

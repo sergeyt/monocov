@@ -12,6 +12,7 @@ CoverageModel.cs
 SourceFileCoverageData.cs
 XmlExporter.cs
 HtmlExporter.cs
+LcovExporter.cs
 MonoCovMain.cs
 MonoCovOptions.cs
 style.xsl

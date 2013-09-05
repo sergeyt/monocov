@@ -54,6 +54,9 @@ public class MonoCovMain {
 		if (options.exportHtmlDir != null)
 			return handleExportHtml (options, args);
 
+		if (options.exportLcovDir != null)
+			return handleExportLcov (options, args);
+
 		if (options.minClassCoverage > 0 || options.minMethodeCoverage > 0)
 			return handleTestCoverage (options, args);
 
@@ -199,6 +202,48 @@ public class MonoCovMain {
 			}
 		}
 
+		return 0;
+	}
+
+	private static int handleExportLcov (MonoCovOptions opts, string[] args) {
+		if (args.Length == 0) {
+			Console.WriteLine ("Error: Datafile name is required when using --export-lcov");
+			return 1;
+		}
+		
+		if (!File.Exists(args [0]))
+		{
+			Console.WriteLine(string.Format("Error: Datafile '{0}' not found.", args [0]));
+			return 1;
+		}
+
+		string exportDir = opts.exportLcovDir;
+			
+		if (!Directory.Exists (exportDir)) {
+			try {
+				Directory.CreateDirectory (exportDir);
+			}
+			catch (Exception ex) {
+				Console.WriteLine ("Error: Destination directory '" + exportDir + "' does not exist and could not be created: " + ex);
+				return 1;
+			}
+		}
+			
+		try {
+			CoverageModel model = new CoverageModel ();
+			model.ReadFromFile (args [0]);
+			// TODO support progress in lcov export
+			LcovExporter.Export (model, Path.Combine(exportDir, "lcov.info"));
+		}
+		catch (Exception e) {
+			Console.WriteLine("Error: "+e.Message);
+			return 1;
+		}
+			
+		if (!opts.quiet) {
+			Console.WriteLine ();
+			Console.WriteLine ("Done.");
+		}
 		return 0;
 	}
 }

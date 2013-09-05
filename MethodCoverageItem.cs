@@ -37,5 +37,11 @@ public class MethodCoverageItem : CoverageItem {
 			name = value;
 		}
 	}
+
+	public string FullName {
+		get {
+			return string.Format("{0}.{1}", Class.FullName, name);
+		}
+	}
 }
 }
