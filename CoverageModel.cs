@@ -130,7 +130,7 @@ public class CoverageModel : CoverageItem {
 				Console.WriteLine (" (" + symbolFile.SourceCount + " files, " + symbolFile.MethodCount + " methods)");
 			}
 #else
-			AssemblyDefinition assembly = AssemblyFactory.GetAssembly (filename);
+			AssemblyDefinition assembly = AssemblyDefinition.ReadAssembly (filename);
 			ModuleDefinition module = assembly.MainModule;
 			if (module.Mvid != new Guid (guid)) {
 				Console.WriteLine ("WARNING: Loaded version of assembly " + assembly + " is different from the version used to collect coverage data.");
@@ -177,7 +177,7 @@ public class CoverageModel : CoverageItem {
 	}
 #else
 	static TypeDefinition LoadType (AssemblyDefinition assembly, string name) {
-		TypeDefinition type = assembly.MainModule.Types [name];
+		TypeDefinition type = assembly.MainModule.GetType(name);
 		if (type != null)
 			return type;
 		int last_dot = name.LastIndexOf ('.');
@@ -187,7 +187,7 @@ public class CoverageModel : CoverageItem {
 			StringBuilder sb = new StringBuilder (name);
 			sb [last_dot] = '/';
 			name = sb.ToString ();
-			type = assembly.MainModule.Types [name];
+			type = assembly.MainModule.GetType(name);
 			if (type != null)
 				return type;
 			last_dot = name.LastIndexOf ('.');
@@ -335,7 +335,7 @@ public class CoverageModel : CoverageItem {
 					continue;
 
 				if (! klass.methodsByMethod.ContainsKey (mb)) {
-					MethodEntry entry = symbolFile.GetMethodByToken ((int)mb.MetadataToken.ToUInt());
+					MethodEntry entry = symbolFile.GetMethodByToken (mb.MetadataToken.ToInt32());
 					ProcessMethod (mb, entry, klass, mb.Name, null);
 				}
 			}

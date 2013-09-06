@@ -9,7 +9,7 @@ class LcovExporter {
 
 	public static void Export(CoverageModel model, string path) {
 
-	    using (TextWriter writer = new StreamWriter(path, Encoding.ASCII)) {
+	    using (TextWriter writer = new StreamWriter(path, false, Encoding.ASCII)) {
 	    	foreach (ClassCoverageItem klass in model.Classes.Values) {
 				if (klass.filtered || klass.hit + klass.missed == 0)
 					continue;
