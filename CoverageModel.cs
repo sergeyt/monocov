@@ -283,7 +283,7 @@ public class CoverageModel : CoverageItem {
 
 			MethodEntry entry = symbolFile.GetMethodByToken (itok);
 
-			MethodDefinition monoMethod = assembly.MainModule.LookupByToken (
+			MethodDefinition monoMethod = assembly.MainModule.LookupToken (
 				new MetadataToken ((TokenType)(itok & 0xff000000), (uint)(itok & 0xffffff)))
 				as MethodDefinition;
 			//Console.WriteLine (monoMethod);
