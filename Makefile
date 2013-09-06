@@ -5,7 +5,7 @@ GUI = gtk
 LIBS=-r:Mono.Cecil
 CFLAGS=-O2 -g
 
-all: monocov.exe mono-profiler-monocov.so symbols.exe
+all: monocov.exe libmono-profiler-monocov.so symbols.exe
 
 ifeq ($(GUI), gtk)
 GUI_SRCS = \
@@ -56,7 +56,7 @@ symbols.exe: symbols.cs
 nunit-console.exe: nunit-console.cs
 	gmcs -r:nunit.framework -r:nunit.core -r:nunit.util -r:Mono.GetOptions nunit-console.cs
 
-mono-profiler-monocov.so: coverage.c
+libmono-profiler-monocov.so: coverage.c
 	$(CC) $(CFLAGS) -DVERSION=\"$(VERSION)\" `pkg-config --cflags mono-2` `pkg-config --libs mono-2` `pkg-config --cflags glib-2.0` `pkg-config --libs glib-2.0` --shared -fPIC -o $@ $^
 
 install: all
@@ -65,7 +65,7 @@ install: all
 	cp Mono.Cecil.dll $(prefix)/lib/monocov
 	cp monocov.exe $(prefix)/lib/monocov
 	cp monocov $(prefix)/bin
-	cp mono-profiler-monocov.so $(prefix)/lib/
+	cp libmono-profiler-monocov.so $(prefix)/lib/
 	cp monocov.1 $(prefix)/man/man1
 
 test:
