@@ -1,0 +1,24 @@
+sudo apt-get install mono-complete gtk-sharp2
+
+whereis mono
+
+echo 'setting up nuget'
+mozroots --import --sync
+wget -O nuget.exe 'http://az320820.vo.msecnd.net/downloads/nuget.exe'
+wget -O Microsoft.Build.dll https://dl.dropbox.com/u/103746479/Microsoft.Build.dll
+echo 'getting dependencies'
+bash nuget install Mono.Cecil
+ls
+CECIL_DLL=Mono.Cecil.0.9.5.4/lib/net35/Mono.Cecil.dll
+cp $CECIL_DLL Mono.Cecil.dll
+
+./configure --prefix=/usr/local --cecil=Mono.Cecil.dll
+
+sudo make install
+
+ldconfig -p | grep mono
+ldconfig -p | grep glib
+ldd -v -r /usr/local/lib/libmono-profiler-monocov.so
+
+make test
+ls
