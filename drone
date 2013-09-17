@@ -16,9 +16,10 @@ cp $CECIL_DLL Mono.Cecil.dll
 
 sudo make install
 
-ldconfig -p | grep mono
-ldconfig -p | grep glib
-ldd -v -r /usr/local/lib/libmono-profiler-monocov.so
+#ldconfig -p | grep mono
+#ldconfig -p | grep glib
+#ldd -v -r /usr/local/lib/libmono-profiler-monocov.so
 
-make test
+gmcs -debug test.cs
+LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH mono --profile=monocov:outfile=test.cov test.exe
 ls
